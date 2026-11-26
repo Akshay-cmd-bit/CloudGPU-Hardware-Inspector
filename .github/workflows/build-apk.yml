@@ -14,10 +14,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: CloudGPU-Hardware-Inspector
-
     steps:
       - name: Checkout project
         uses: actions/checkout@v4
@@ -45,5 +41,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: CloudGPU-Hardware-Inspector-APK
-          path: CloudGPU-Hardware-Inspector/app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
