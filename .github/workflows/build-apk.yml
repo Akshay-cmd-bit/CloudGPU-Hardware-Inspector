@@ -4,32 +4,40 @@ name: Build Android APK
 on:
   workflow_dispatch:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+
+permissions:
+  contents: read
 
 jobs:
   build:
+    name: Build CloudGPU APK
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout project
         uses: actions/checkout@v4
 
-      - name: Set up Java
+      - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Gradle
+      - name: Set up Gradle 8.11.1
         uses: gradle/actions/setup-gradle@v4
-
-      - name: Install Android SDK command-line tools
-        uses: android-actions/setup-android@v3
         with:
-          cmdline-tools-version: 'latest'
+          gradle-version: '8.11.1'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+        with:
+          cmdline-tools-version: '14742923'
+          accept-android-sdk-licenses: 'true'
 
       - name: Build debug APK
-        run: gradle assembleDebug
+        run: gradle --no-daemon assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
